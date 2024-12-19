@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Table } from 'antd';
+import { Table } from 'antd';
 import { getUsersList } from '@/supabase/admin/users';
 import { mapUsersListForAdmin } from '@/supabase/admin/users/utils';
 import { useQuery } from '@tanstack/react-query';
@@ -17,16 +17,7 @@ const UsersList: React.FC = () => {
   });
 
   return (
-    <Table
-      title={() => (
-        <Link to={'create'}>
-          <Button type="primary">Create Blog</Button>
-        </Link>
-      )}
-      bordered
-      loading={isFetching}
-      dataSource={usersList}
-    >
+    <Table bordered loading={isFetching} dataSource={usersList}>
       <Column<UserForAdmin> title="Email" dataIndex="email" />
       <Column<UserForAdmin> title="Create At" dataIndex="createdAt" />
       <Column<UserForAdmin> title="Phone" dataIndex="phone" />

@@ -1,3 +1,4 @@
+import LogoutButton from '@/components/buttons/LogoutButton';
 import { Layout, Menu, MenuProps, theme } from 'antd';
 import React from 'react';
 import { Link, Outlet } from 'react-router';
@@ -36,8 +37,10 @@ const DashboardLayout: React.FC = () => {
 
   return (
     <Layout>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
-        <div className="demo-logo" />
+      <Header
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}
+      >
+        <LogoutButton />
       </Header>
       <Content style={{ padding: '0 48px' }}>
         <Layout
