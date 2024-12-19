@@ -50,6 +50,46 @@ export const updateBlogInAdmin = async ({
   }
 };
 
+export const deleteBlogInAdmin = async ({
+  id,
+  imagePath,
+}: {
+  id: string;
+  imagePath: string;
+}) => {
+  const isConfirmed = window.confirm(
+    'Are you sure you want to delete this blog?',
+  );
+
+  if (!isConfirmed) {
+    return null;
+  }
+
+  try {
+    const { data: blogData } = await supabase
+      .from('blogs')
+      .delete()
+      .eq('id', id)
+      .throwOnError();
+
+    const blogImgUrl = imagePath.replace('blog_images/', '');
+
+    const { data: storageData, error: storageError } = await supabase.storage
+      .from('blog_images')
+      .remove([blogImgUrl]);
+
+    if (storageError) {
+      console.error(`Error deleting image at path ${imagePath}:`, storageError);
+      throw storageError;
+    }
+
+    return { blogData, storageData };
+  } catch (error) {
+    console.error(`Error deleting blog with ID ${id}:`, error);
+    throw error;
+  }
+};
+
 export const createBlogInAdmin = async ({
   inputFields,
   id,

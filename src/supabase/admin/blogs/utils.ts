@@ -14,6 +14,7 @@ export const mapBlogsListForAdmin = (blogs: SingleBlogType[]) => {
       description_en: blog?.description_en,
       created_at: createAt,
       user_id: blog?.user_id,
+      image_url: blog?.image_url,
     };
   });
 };
