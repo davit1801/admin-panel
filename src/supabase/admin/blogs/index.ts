@@ -1,5 +1,5 @@
 import { supabase } from '@/supabase';
-import { BlogUpdatePayload } from '@/supabase/admin/blogs/index.types';
+import { BlogMutationPayload } from '@/supabase/admin/blogs/index.types';
 
 export const getBlogsList = async () => {
   try {
@@ -32,17 +32,61 @@ export const getSingleBlog = async (id: string) => {
   }
 };
 
-export const updateBlogInAdmin = async ({ id, values }: BlogUpdatePayload) => {
+export const updateBlogInAdmin = async ({
+  id,
+  inputFields,
+}: BlogMutationPayload) => {
   try {
     const { data } = await supabase
       .from('blogs')
-      .update(values)
+      .update(inputFields)
       .eq('id', id)
       .throwOnError();
 
     return data;
   } catch (error) {
     console.error(`Error updating blog with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+export const createBlogInAdmin = async ({
+  inputFields,
+  id,
+}: BlogMutationPayload) => {
+  try {
+    if (inputFields?.image_file) {
+      const uploadResponse = await supabase.storage
+        .from('blog_images')
+        .upload(inputFields?.image_file?.name, inputFields?.image_file);
+
+      if (uploadResponse.error) {
+        throw new Error(`Image upload failed: ${uploadResponse.error.message}`);
+      }
+
+      const imageUrl = uploadResponse.data?.fullPath;
+
+      const insertResponse = await supabase.from('blogs').insert({
+        title_ka: inputFields.title_ka,
+        title_en: inputFields.title_en,
+        description_ka: inputFields.description_ka,
+        description_en: inputFields.description_en,
+        image_url: imageUrl,
+        user_id: id,
+      });
+
+      if (insertResponse.error) {
+        throw new Error(
+          `Blog creation failed: ${insertResponse.error.message}`,
+        );
+      }
+
+      return uploadResponse;
+    } else {
+      throw new Error('No image file provided in inputFields.');
+    }
+  } catch (error) {
+    console.error('Error creating blog');
     throw error;
   }
 };

@@ -9,14 +9,20 @@ export type SingleBlogType = {
   user_id: string | null;
 } | null;
 
-export type BlogUpdatedValues = {
-  title_ka: string;
-  title_en: string;
-  description_ka: string;
-  description_en: string;
+export type BlogFormValues = {
+  title_ka?: string;
+  title_en?: string;
+  description_ka?: string;
+  description_en?: string;
+  image_file?: null | File;
 };
 
-export type BlogUpdatePayload = {
+export type BlogMutationPayload = {
   id: string;
-  values: BlogUpdatedValues;
+  inputFields: BlogFormValues;
+};
+
+export type BlogCreatePayload = {
+  id: string;
+  inputFields: BlogFormValues;
 };

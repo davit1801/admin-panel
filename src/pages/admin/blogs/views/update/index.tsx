@@ -1,6 +1,6 @@
 import FormInputSkeleton from '@/components/loaders/FormInputSkeleton';
 import BlogsCreateUpdateForm from '@/pages/admin/blogs/components/form';
-import { getSingleBlog } from '@/supabase/admin/blogs';
+import { getSingleBlog, updateBlogInAdmin } from '@/supabase/admin/blogs';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useParams } from 'react-router';
@@ -31,7 +31,11 @@ const BlogsUpdateView: React.FC = () => {
       {isFetching ? (
         <FormInputSkeleton />
       ) : (
-        <BlogsCreateUpdateForm initialValues={blog} />
+        <BlogsCreateUpdateForm
+          initialValues={blog}
+          mode="update"
+          mutationFunction={updateBlogInAdmin}
+        />
       )}
     </>
   );

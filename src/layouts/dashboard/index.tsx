@@ -50,7 +50,7 @@ const DashboardLayout: React.FC = () => {
           <Sider style={{ background: colorBgContainer }} width={200}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
+              defaultSelectedKeys={['0']}
               defaultOpenKeys={['sub1']}
               style={{ height: '100%' }}
               items={items2}

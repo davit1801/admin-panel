@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import { getUsersList } from '@/supabase/admin/users';
 import { mapUsersListForAdmin } from '@/supabase/admin/users/utils';
 import { useQuery } from '@tanstack/react-query';
@@ -17,7 +17,16 @@ const UsersList: React.FC = () => {
   });
 
   return (
-    <Table bordered loading={isFetching} dataSource={usersList}>
+    <Table
+      title={() => (
+        <Link to={'create'}>
+          <Button type="primary">Create Blog</Button>
+        </Link>
+      )}
+      bordered
+      loading={isFetching}
+      dataSource={usersList}
+    >
       <Column<UserForAdmin> title="Email" dataIndex="email" />
       <Column<UserForAdmin> title="Create At" dataIndex="createdAt" />
       <Column<UserForAdmin> title="Phone" dataIndex="phone" />
@@ -26,7 +35,7 @@ const UsersList: React.FC = () => {
         title="Actions"
         render={(_, row) => (
           <Link to={`update/${row.id}`}>
-            <EditOutlined className="cursor-pointer text-lg text-amber-500" />
+            <EditOutlined className="cursor-pointer text-lg text-blue-950" />
           </Link>
         )}
       />

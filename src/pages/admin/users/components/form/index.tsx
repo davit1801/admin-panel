@@ -15,7 +15,7 @@ const UsersCreateUpdateForm: React.FC<CreateUpdateFormPropsType> = ({
   initialValues,
 }) => {
   const navigate = useNavigate();
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ['update-user'],
     mutationFn: updateUserInAdmin,
     onSuccess: () => {
@@ -25,7 +25,6 @@ const UsersCreateUpdateForm: React.FC<CreateUpdateFormPropsType> = ({
   const { id } = useParams<{ id: string }>();
   const [form] = useForm();
   const handleSubmit = (values: FormInitialValuesTypes) => {
-    console.log(values);
     mutate({ id: id as string, values: values });
   };
 
@@ -51,7 +50,7 @@ const UsersCreateUpdateForm: React.FC<CreateUpdateFormPropsType> = ({
       </Item>
 
       <Item label=" ">
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" disabled={isPending}>
           Submit
         </Button>
       </Item>
