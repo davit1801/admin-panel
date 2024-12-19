@@ -1,12 +1,12 @@
 import useAuth from '@/hooks/useAuth';
-import LoadingPage from '@/components/loaders/LoadingPage';
+import LoadingSpinner from '@/components/loaders/LoadingSpinner';
 import React from 'react';
 import { Outlet } from 'react-router';
 
 const RootLayout: React.FC = () => {
   const { isLoading } = useAuth();
 
-  return <>{isLoading ? <LoadingPage /> : <Outlet />}</>;
+  return <>{isLoading ? <LoadingSpinner /> : <Outlet />}</>;
 };
 
 export default RootLayout;

@@ -4,8 +4,8 @@ import React from 'react';
 
 const LoginView: React.FC = () => {
   return (
-    <div className="flex flex-col gap-8">
-      <h1 className="text-center text-2xl">Login</h1>
+    <div className="flex w-full flex-col items-center gap-3">
+      <h1 className="text-center text-3xl">Login</h1>
       <LoginForm />
     </div>
   );

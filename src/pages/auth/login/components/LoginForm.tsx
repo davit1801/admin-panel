@@ -23,9 +23,11 @@ const LoginForm: React.FC = () => {
     <Form
       name="login"
       initialValues={{ remember: true }}
-      style={{ maxWidth: 480 }}
+      style={{ maxWidth: 360, width: '100%' }}
       onFinish={onSubmit}
       validateTrigger="onBlur"
+      className="p-6"
+      size="large"
     >
       <Form.Item
         name="email"
