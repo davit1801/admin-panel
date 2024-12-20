@@ -1,5 +1,6 @@
 export type FormInitialValuesTypes = {
   email: string;
+  // password: string;
   phone: string;
 };
 

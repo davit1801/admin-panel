@@ -1,3 +1,4 @@
+import { AUTH_PATHS } from '@/router/routes/auth/index.enum';
 import { logout } from '@/supabase/auth';
 import { useMutation } from '@tanstack/react-query';
 import { Button } from 'antd';
@@ -11,7 +12,7 @@ const LogoutButton: React.FC = () => {
     mutationKey: ['logout'],
     mutationFn: logout,
     onSuccess: () => {
-      navigate('auth/login');
+      navigate(AUTH_PATHS.AUTH);
     },
     onError: (error) => {
       console.error('Login failed:', error);

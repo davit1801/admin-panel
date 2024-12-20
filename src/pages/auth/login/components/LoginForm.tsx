@@ -1,3 +1,4 @@
+import { DASHBOARD_PATHS } from '@/router/routes/dashboard/index.enum';
 import { login } from '@/supabase/auth';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
@@ -11,7 +12,7 @@ const LoginForm: React.FC = () => {
     mutationKey: ['login'],
     mutationFn: login,
     onSuccess: () => {
-      naviagte('/dashboard');
+      naviagte(DASHBOARD_PATHS.DASHBOARD);
     },
   });
 
@@ -32,9 +33,16 @@ const LoginForm: React.FC = () => {
       <Form.Item
         name="email"
         rules={[
-          { required: true, message: 'Please input your Email!' },
-          { type: 'email', message: 'Please enter a valid Email!' },
+          {
+            required: true,
+            message: 'Please input your Email!',
+          },
+          {
+            type: 'email',
+            message: 'Please enter a valid Email!',
+          },
         ]}
+        validateTrigger={['onBlur', 'onSubmit']}
       >
         <Input prefix={<UserOutlined />} placeholder="Email" />
       </Form.Item>

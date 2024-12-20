@@ -1,11 +1,12 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import { getUsersList } from '@/supabase/admin/users';
 import { mapUsersListForAdmin } from '@/supabase/admin/users/utils';
 import { useQuery } from '@tanstack/react-query';
 import { EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router';
 import { UserForAdmin } from '@/pages/admin/users/components/list/index.types';
+import { DASHBOARD_PATHS } from '@/router/routes/dashboard/index.enum';
 
 const { Column } = Table;
 
@@ -17,7 +18,20 @@ const UsersList: React.FC = () => {
   });
 
   return (
-    <Table bordered loading={isFetching} dataSource={usersList}>
+    <Table
+      bordered
+      loading={isFetching}
+      dataSource={usersList}
+      title={() => (
+        <Link
+          to={`${DASHBOARD_PATHS.DASHBOARD}/${DASHBOARD_PATHS.USERS_CREATE}`}
+        >
+          <Button type="primary" disabled>
+            Create user
+          </Button>
+        </Link>
+      )}
+    >
       <Column<UserForAdmin> title="Email" dataIndex="email" />
       <Column<UserForAdmin> title="Create At" dataIndex="createdAt" />
       <Column<UserForAdmin> title="Phone" dataIndex="phone" />
@@ -25,7 +39,9 @@ const UsersList: React.FC = () => {
       <Column<UserForAdmin>
         title="Actions"
         render={(_, row) => (
-          <Link to={`update/${row.id}`}>
+          <Link
+            to={`${DASHBOARD_PATHS.DASHBOARD}/${DASHBOARD_PATHS.USERS_UPDATE}/${row.id}`}
+          >
             <EditOutlined className="cursor-pointer text-lg text-blue-950" />
           </Link>
         )}

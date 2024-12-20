@@ -1,34 +1,12 @@
 import LogoutButton from '@/components/buttons/LogoutButton';
-import { Layout, Menu, MenuProps, theme } from 'antd';
+import { menuItems } from '@/layouts/dashboard/config';
+import { Layout, Menu, theme } from 'antd';
 import React from 'react';
 import { Link, Outlet } from 'react-router';
+import logo from '@/assets/images/blog-logo.png';
+import { DASHBOARD_PATHS } from '@/router/routes/dashboard/index.enum';
 
 const { Header, Content, Footer, Sider } = Layout;
-
-const items2: MenuProps['items'] = [
-  {
-    key: `Users`,
-    label: `Users`,
-
-    children: [
-      {
-        key: 0,
-        label: <Link to="users">Users</Link>,
-      },
-    ],
-  },
-  {
-    key: `Posts`,
-    label: `Posts`,
-
-    children: [
-      {
-        key: 1,
-        label: <Link to="blogs">Posts</Link>,
-      },
-    ],
-  },
-];
 
 const DashboardLayout: React.FC = () => {
   const {
@@ -38,8 +16,15 @@ const DashboardLayout: React.FC = () => {
   return (
     <Layout>
       <Header
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
       >
+        <Link to={DASHBOARD_PATHS.DASHBOARD}>
+          <img src={logo} alt="blogo logo" className="w-10" />
+        </Link>
         <LogoutButton />
       </Header>
       <Content style={{ padding: '0 48px' }}>
@@ -51,13 +36,7 @@ const DashboardLayout: React.FC = () => {
           }}
         >
           <Sider style={{ background: colorBgContainer }} width={200}>
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['0']}
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%' }}
-              items={items2}
-            />
+            <Menu mode="inline" style={{ height: '100%' }} items={menuItems} />
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: '80vh' }}>
             <Outlet />
@@ -65,7 +44,7 @@ const DashboardLayout: React.FC = () => {
         </Layout>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
-        Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        Admin Panel ©{new Date().getFullYear()} Created by Ant UED
       </Footer>
     </Layout>
   );

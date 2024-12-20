@@ -25,7 +25,8 @@ const UsersCreateUpdateForm: React.FC<CreateUpdateFormPropsType> = ({
   const { id } = useParams<{ id: string }>();
   const [form] = useForm();
   const handleSubmit = (values: FormInitialValuesTypes) => {
-    mutate({ id: id as string, values: values });
+    console.log(values);
+    mutate({ id: id!, values: values });
   };
 
   return (
@@ -39,14 +40,18 @@ const UsersCreateUpdateForm: React.FC<CreateUpdateFormPropsType> = ({
       labelWrap
       wrapperCol={{ flex: 1 }}
       colon={false}
-      style={{ maxWidth: 600 }}
+      style={{ maxWidth: 400 }}
     >
-      <Item label="Phone Number" name="phone" rules={[{ required: true }]}>
-        <Input placeholder="Enter Phone Number" />
-      </Item>
-
       <Item label="Email" name="email" rules={[{ required: true }]}>
         <Input placeholder="Enter Email" />
+      </Item>
+
+      {/* <Item label="Password" name="password" rules={[{ required: true }]}>
+        <Input placeholder="Enter Password" />
+      </Item> */}
+
+      <Item label="Phone Number" name="phone" rules={[{ required: true }]}>
+        <Input placeholder="Enter Phone Number" />
       </Item>
 
       <Item label=" ">

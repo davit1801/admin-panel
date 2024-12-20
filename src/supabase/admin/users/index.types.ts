@@ -5,3 +5,9 @@ export type updateUserPayload = {
     phone: string;
   };
 };
+
+export type createUserPayload = {
+  email: string;
+  password: string;
+  // phone: string;
+};
