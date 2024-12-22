@@ -1,9 +1,12 @@
 import { BlogFormInitialValues } from '@/pages/admin/blogs/components/form/index.type';
+import { useCreateUpdateBlogInAdmin } from '@/react-query/mutation/admin/blogs';
+import { DASHBOARD_PATHS } from '@/router/routes/dashboard/index.enum';
 import {
   BlogFormValues,
   BlogMutationPayload,
+  createBlogResponse,
 } from '@/supabase/admin/blogs/index.types';
-import { useMutation } from '@tanstack/react-query';
+import { MutationFunction } from '@tanstack/react-query';
 import { Button, Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import TextArea from 'antd/es/input/TextArea';
@@ -15,8 +18,10 @@ const { Item } = Form;
 type PropsType = {
   initialValues?: BlogFormInitialValues;
   mode: 'create' | 'update';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  mutationFunction: any;
+  mutationFunction: MutationFunction<
+    null | createBlogResponse,
+    BlogMutationPayload
+  >;
 };
 
 const BlogsCreateUpdateForm: React.FC<PropsType> = ({
@@ -27,17 +32,20 @@ const BlogsCreateUpdateForm: React.FC<PropsType> = ({
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [form] = useForm();
-  const { mutate, isPending } = useMutation<
-    unknown,
-    unknown,
-    BlogMutationPayload
-  >({
-    mutationKey: [mode === 'create' ? 'create-blog' : 'update-blog'],
-    mutationFn: mutationFunction,
-    onSuccess: () => {
-      navigate('/dashboard/blogs');
+
+  const { mutate, isPending } = useCreateUpdateBlogInAdmin(
+    mode,
+    mutationFunction,
+    {
+      mutationOptions: {
+        onSuccess: () => {
+          navigate(
+            `${DASHBOARD_PATHS.DASHBOARD}/${DASHBOARD_PATHS.BLOGS_LIST}`,
+          );
+        },
+      },
     },
-  });
+  );
 
   const handleSubmit = (values: BlogFormValues) => {
     const payload =

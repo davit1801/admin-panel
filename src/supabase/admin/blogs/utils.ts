@@ -18,3 +18,12 @@ export const mapBlogsListForAdmin = (blogs: SingleBlogType[]) => {
     };
   });
 };
+
+export const transformSingleBlogForAdmin = (blog: SingleBlogType) => {
+  return {
+    title_ka: blog?.title_ka || '',
+    title_en: blog?.title_en || '',
+    description_ka: blog?.description_ka || '',
+    description_en: blog?.description_en || '',
+  };
+};

@@ -1,3 +1,5 @@
+import { PostgrestError } from '@supabase/supabase-js';
+
 export type SingleBlogType = {
   created_at: string;
   description_en: string | null;
@@ -25,4 +27,17 @@ export type BlogMutationPayload = {
 export type BlogCreatePayload = {
   id: string;
   inputFields: BlogFormValues;
+};
+
+export type createBlogResponse = {
+  data: {
+    id: string;
+    path: string;
+    fullPath: string;
+  };
+  error: null;
+};
+
+export type BlogError = {
+  error: PostgrestError | null;
 };

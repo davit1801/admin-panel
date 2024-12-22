@@ -1,20 +1,17 @@
 import React from 'react';
 import { Button, Table } from 'antd';
-import { getUsersList } from '@/supabase/admin/users';
-import { mapUsersListForAdmin } from '@/supabase/admin/users/utils';
-import { useQuery } from '@tanstack/react-query';
 import { EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router';
 import { UserForAdmin } from '@/pages/admin/users/components/list/index.types';
 import { DASHBOARD_PATHS } from '@/router/routes/dashboard/index.enum';
+import { useGetUsersListForAdmin } from '@/react-query/query/admin/users';
+import { mapUsersListForAdmin } from '@/supabase/admin/users/utils';
 
 const { Column } = Table;
 
 const UsersList: React.FC = () => {
-  const { data: usersList, isFetching } = useQuery({
-    queryKey: ['fetch-users'],
-    queryFn: getUsersList,
-    select: (data) => mapUsersListForAdmin(data),
+  const { data: usersList, isFetching } = useGetUsersListForAdmin({
+    queryOpions: { select: mapUsersListForAdmin },
   });
 
   return (

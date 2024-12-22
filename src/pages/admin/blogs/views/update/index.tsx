@@ -1,7 +1,8 @@
 import FormInputSkeleton from '@/components/loaders/FormInputSkeleton';
 import BlogsCreateUpdateForm from '@/pages/admin/blogs/components/form';
-import { getSingleBlog, updateBlogInAdmin } from '@/supabase/admin/blogs';
-import { useQuery } from '@tanstack/react-query';
+import { useGetSingleBlogForAdmin } from '@/react-query/query/admin/blogs';
+import { updateBlogInAdmin } from '@/supabase/admin/blogs';
+import { transformSingleBlogForAdmin } from '@/supabase/admin/blogs/utils';
 import React from 'react';
 import { useParams } from 'react-router';
 
@@ -10,18 +11,10 @@ const BlogsUpdateView: React.FC = () => {
 
   const {
     data: blog,
-    isFetching,
     isError,
-  } = useQuery({
-    queryKey: ['get-single-blog', id],
-    queryFn: () => getSingleBlog(id!),
-    select: (data) => ({
-      title_ka: data?.title_ka || '',
-      title_en: data?.title_en || '',
-      description_ka: data?.description_ka || '',
-      description_en: data?.description_en || '',
-    }),
-    enabled: !!id,
+    isFetching,
+  } = useGetSingleBlogForAdmin(id as string, {
+    queryOpions: { select: transformSingleBlogForAdmin },
   });
 
   if (isError) return <p>Failed to load blog. Please try again later.</p>;

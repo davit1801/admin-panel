@@ -2,8 +2,7 @@ import {
   CreateUpdateFormPropsType,
   FormInitialValuesTypes,
 } from '@/pages/admin/users/components/form/index.type';
-import { updateUserInAdmin } from '@/supabase/admin/users';
-import { useMutation } from '@tanstack/react-query';
+import { useUpdateUserInAdmin } from '@/react-query/mutation/admin/users';
 import { Button, Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import React from 'react';
@@ -14,16 +13,14 @@ const { Item } = Form;
 const UsersCreateUpdateForm: React.FC<CreateUpdateFormPropsType> = ({
   initialValues,
 }) => {
-  const navigate = useNavigate();
-  const { mutate, isPending } = useMutation({
-    mutationKey: ['update-user'],
-    mutationFn: updateUserInAdmin,
-    onSuccess: () => {
-      navigate('/dashboard/users');
-    },
-  });
   const { id } = useParams<{ id: string }>();
   const [form] = useForm();
+  const navigate = useNavigate();
+
+  const { mutate, isPending } = useUpdateUserInAdmin({
+    mutationOptions: { onSuccess: () => navigate('/dashboard/users') },
+  });
+
   const handleSubmit = (values: FormInitialValuesTypes) => {
     console.log(values);
     mutate({ id: id!, values: values });

@@ -1,19 +1,19 @@
 import FormInputSkeleton from '@/components/loaders/FormInputSkeleton';
 import UsersCreateUpdateForm from '@/pages/admin/users/components/form';
-import { getSingleUserInAdmin } from '@/supabase/admin/users';
-import { useQuery } from '@tanstack/react-query';
+import { useGetSingleUserForAdmin } from '@/react-query/query/admin/users';
 import React from 'react';
 import { useParams } from 'react-router';
 
 const UsersUpdateView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: user, isFetching } = useQuery({
-    queryKey: ['get-single-user', id],
-    queryFn: () => getSingleUserInAdmin(id as string),
-    select: (data) => ({
-      email: data.email || '',
-      phone: data.phone || '',
-    }),
+
+  const { data: user, isFetching } = useGetSingleUserForAdmin(id as string, {
+    queryOpions: {
+      select: (data) => ({
+        email: data.email || '',
+        phone: data.phone || '',
+      }),
+    },
   });
 
   return (

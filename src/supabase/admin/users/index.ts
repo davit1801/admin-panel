@@ -1,7 +1,8 @@
 import { supabase } from '@/supabase';
 import {
   createUserPayload,
-  updateUserPayload,
+  UpdateUserPayload,
+  UpdateUserResponse,
 } from '@/supabase/admin/users/index.types';
 import { User } from '@supabase/supabase-js';
 
@@ -14,24 +15,6 @@ export const getUsersList = async () => {
       throw new Error(error.message);
     }
     return data.users as User[];
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    throw error;
-  }
-};
-
-export const updateUserInAdmin = async ({ id, values }: updateUserPayload) => {
-  try {
-    const { data, error } = await supabase.auth.admin.updateUserById(id, {
-      ...values,
-    });
-
-    if (error) {
-      console.error('Error fetch users', error.message);
-      throw new Error(error.message);
-    }
-
-    return data;
   } catch (error) {
     console.error('Error fetching users:', error);
     throw error;
@@ -51,6 +34,27 @@ export const getSingleUserInAdmin = async (id: string) => {
   } catch (err) {
     console.error('Unexpected error:', err);
     throw err;
+  }
+};
+
+export const updateUserInAdmin = async ({
+  id,
+  values,
+}: UpdateUserPayload): Promise<UpdateUserResponse> => {
+  try {
+    const { data, error } = await supabase.auth.admin.updateUserById(id, {
+      ...values,
+    });
+
+    if (error) {
+      console.error('Error fetch users', error.message);
+      throw new Error(error.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
   }
 };
 

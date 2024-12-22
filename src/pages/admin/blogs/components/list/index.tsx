@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button, Table } from 'antd';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router';
-import { deleteBlogInAdmin, getBlogsList } from '@/supabase/admin/blogs';
+import { deleteBlogInAdmin } from '@/supabase/admin/blogs';
 import { mapBlogsListForAdmin } from '@/supabase/admin/blogs/utils';
 import { BlogForAdmin } from '@/pages/admin/blogs/components/list/index.types';
 import { DASHBOARD_PATHS } from '@/router/routes/dashboard/index.enum';
+import { useGetBlogsListForAdmin } from '@/react-query/query/admin/blogs';
 
 const { Column } = Table;
 
@@ -15,10 +16,8 @@ const BlogsList: React.FC = () => {
     data: blogsList,
     isFetching,
     refetch,
-  } = useQuery({
-    queryKey: ['fetch-blogs'],
-    queryFn: getBlogsList,
-    select: (data) => mapBlogsListForAdmin(data),
+  } = useGetBlogsListForAdmin({
+    queryOpions: { select: mapBlogsListForAdmin },
   });
 
   const { mutate } = useMutation({

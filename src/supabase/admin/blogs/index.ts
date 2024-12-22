@@ -1,7 +1,10 @@
 import { supabase } from '@/supabase';
-import { BlogMutationPayload } from '@/supabase/admin/blogs/index.types';
+import {
+  BlogMutationPayload,
+  createBlogResponse,
+} from '@/supabase/admin/blogs/index.types';
 
-export const getBlogsList = async () => {
+export const getBlogsListForAdmin = async () => {
   try {
     const { data } = await supabase
       .from('blogs')
@@ -16,7 +19,7 @@ export const getBlogsList = async () => {
   }
 };
 
-export const getSingleBlog = async (id: string) => {
+export const getSingleBlogForAdmin = async (id: string) => {
   try {
     const { data } = await supabase
       .from('blogs')
@@ -91,8 +94,8 @@ export const deleteBlogInAdmin = async ({
 };
 
 export const createBlogInAdmin = async ({
-  inputFields,
   id,
+  inputFields,
 }: BlogMutationPayload) => {
   try {
     if (inputFields?.image_file) {
@@ -121,7 +124,7 @@ export const createBlogInAdmin = async ({
         );
       }
 
-      return uploadResponse;
+      return uploadResponse as createBlogResponse;
     } else {
       throw new Error('No image file provided in inputFields.');
     }
